@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.focusvolution.brain_timer.app-mergeDebugResources-2:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\a1459\\.gradle\\caches\\9.0-milestone-1\\transforms\\328b5443f37a88a3cc04c30e1437c87e\\transformed\\core-splashscreen-1.0.1\\res\\values-v29\\values-v29.xml",
+                    "from": {
+                        "startLines": "2,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,374",
+                        "endLines": "6,8",
+                        "endColumns": "12,12",
+                        "endOffsets": "369,464"
+                    }
+                }
+            ]
+        }
+    ]
+}

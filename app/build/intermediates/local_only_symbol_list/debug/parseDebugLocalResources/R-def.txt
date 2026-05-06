@@ -1,0 +1,16 @@
+R_DEF: Internal format may change without notice
+local
+color ic_launcher_background
+color purple_40
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable pequeno
+mipmap ic_launcher
+mipmap ic_launcher_foreground
+mipmap ic_launcher_round
+string app_name
+string notification_channel_description
+string notification_channel_name
+style Theme.Focusvolution
+xml backup_rules
+xml data_extraction_rules

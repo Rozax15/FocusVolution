@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FOCUSVOLUTION</string>
+    <string name="notification_channel_name">Temporizador Focusvolution</string>
+    <string name="notification_channel_description">Notificações do temporizador de foco</string>
+</resources>
