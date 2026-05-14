@@ -40,6 +40,10 @@
         "source": "com.focusvolution.brain_timer.app-main-6:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
+        "merged": "com.focusvolution.brain_timer.app-debug-4:/drawable_medio_semback.png.flat",
+        "source": "com.focusvolution.brain_timer.app-main-6:/drawable/medio_semback.png"
+    },
+    {
         "merged": "com.focusvolution.brain_timer.app-debug-4:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
         "source": "com.focusvolution.brain_timer.app-main-6:/mipmap-hdpi/ic_launcher_foreground.webp"
     },

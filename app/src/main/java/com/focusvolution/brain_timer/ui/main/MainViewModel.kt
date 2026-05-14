@@ -7,18 +7,27 @@ import com.focusvolution.brain_timer.BrainTimerApplication
 import com.focusvolution.brain_timer.data.repository.BrainTimerRepository
 import com.focusvolution.brain_timer.service.TimerForegroundService
 import com.focusvolution.brain_timer.service.TimerServiceStateStore
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = BrainTimerRepository(
-        (application as BrainTimerApplication).database
-    )
+    private val app = application as? BrainTimerApplication
+        ?: throw IllegalStateException("Application must be BrainTimerApplication")
+    private val repository = BrainTimerRepository(app.database)
+
+    /** Fluxo de ID do utilizador atual para reação a mudanças de utilizador */
+    private val _currentUserId = MutableStateFlow(-1L)
+    var currentUserId: Long
+        get() = _currentUserId.value
+        set(value) { _currentUserId.value = value }
 
     // Conta sessões falhadas (saiu da app durante sessão)
     private val _failedSessions = MutableStateFlow(0)
@@ -29,20 +38,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // Guarda localmente o valor selecionado pelo utilizador para evitar race conditions com o serviço
     private var pendingDurationSeconds: Int = 0
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val userStateFlow = _currentUserId.flatMapLatest { id ->
+        if (id == -1L) flowOf(null) else repository.observeUser(id)
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
     val uiState: StateFlow<MainUiState> = combine(
-        repository.appStateFlow,
-        repository.sessionsFlow,
+        userStateFlow,
         TimerServiceStateStore.state,
         _failedSessions
-    ) { appState, sessions, timerState, failed ->
+    ) { user, timerState, failed ->
         MainUiState(
             selectedDurationSeconds = timerState.selectedDurationSeconds,
             remainingSeconds = timerState.remainingSeconds,
             isRunning = timerState.isRunning,
-            totalSessions = appState.totalSessions,
-            currentLevel = appState.currentLevel,
-            failedSessions = failed,
-            sessions = sessions
+            totalSessions = user?.totalSessions ?: 0,
+            currentLevel = user?.currentLevel ?: 1,
+            failedSessions = failed
         )
     }.stateIn(
         scope = viewModelScope,
@@ -123,12 +135,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // A cada 3 sessões falhadas, desce um nível
                 if (newFailed >= 3) {
                     _failedSessions.value = 0
-                    repository.decrementLevel()
+                    repository.decrementLevel(currentUserId)
                 }
             } else {
                 // Sessão concluída com sucesso
                 _failedSessions.value = 0
-                repository.completeSession()
+                val actualDuration = uiState.value.selectedDurationSeconds
+                repository.completeSession(actualDuration, currentUserId)
             }
             leftAppDuringSession = false
         }

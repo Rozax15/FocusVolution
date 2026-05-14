@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /**
@@ -47,6 +48,7 @@ class TimerForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         when (intent?.action) {
             ACTION_CONFIGURE -> {
                 val seconds = intent.getIntExtra(EXTRA_DURATION_SECONDS, 25 * 60)
@@ -82,6 +84,7 @@ class TimerForegroundService : Service() {
 
     override fun onDestroy() {
         tickerJob?.cancel()
+        serviceScope.cancel()
         super.onDestroy()
     }
 

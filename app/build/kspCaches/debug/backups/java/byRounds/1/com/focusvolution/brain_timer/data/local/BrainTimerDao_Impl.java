@@ -8,6 +8,7 @@ import androidx.room.CoroutinesRoom;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
@@ -35,21 +36,24 @@ public final class BrainTimerDao_Impl implements BrainTimerDao {
 
   private final EntityInsertionAdapter<AppStateEntity> __insertionAdapterOfAppStateEntity;
 
+  private final SharedSQLiteStatement __preparedStmtOfDeleteSessionsByUserId;
+
   public BrainTimerDao_Impl(@NonNull final RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfSessionEntity = new EntityInsertionAdapter<SessionEntity>(__db) {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `sessions` (`id`,`timestamp`,`duration`) VALUES (nullif(?, 0),?,?)";
+        return "INSERT OR ABORT INTO `sessions` (`id`,`userId`,`timestamp`,`duration`) VALUES (nullif(?, 0),?,?,?)";
       }
 
       @Override
       protected void bind(@NonNull final SupportSQLiteStatement statement,
           @NonNull final SessionEntity entity) {
         statement.bindLong(1, entity.getId());
-        statement.bindLong(2, entity.getTimestamp());
-        statement.bindLong(3, entity.getDuration());
+        statement.bindLong(2, entity.getUserId());
+        statement.bindLong(3, entity.getTimestamp());
+        statement.bindLong(4, entity.getDuration());
       }
     };
     this.__insertionAdapterOfAppStateEntity = new EntityInsertionAdapter<AppStateEntity>(__db) {
@@ -65,6 +69,14 @@ public final class BrainTimerDao_Impl implements BrainTimerDao {
         statement.bindLong(1, entity.getId());
         statement.bindLong(2, entity.getTotalSessions());
         statement.bindLong(3, entity.getCurrentLevel());
+      }
+    };
+    this.__preparedStmtOfDeleteSessionsByUserId = new SharedSQLiteStatement(__db) {
+      @Override
+      @NonNull
+      public String createQuery() {
+        final String _query = "DELETE FROM sessions WHERE userId = ?";
+        return _query;
       }
     };
   }
@@ -108,6 +120,32 @@ public final class BrainTimerDao_Impl implements BrainTimerDao {
   }
 
   @Override
+  public Object deleteSessionsByUserId(final long userId,
+      final Continuation<? super Unit> $completion) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      @NonNull
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteSessionsByUserId.acquire();
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, userId);
+        try {
+          __db.beginTransaction();
+          try {
+            _stmt.executeUpdateDelete();
+            __db.setTransactionSuccessful();
+            return Unit.INSTANCE;
+          } finally {
+            __db.endTransaction();
+          }
+        } finally {
+          __preparedStmtOfDeleteSessionsByUserId.release(_stmt);
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
   public Flow<List<SessionEntity>> observeSessions() {
     final String _sql = "SELECT * FROM sessions ORDER BY timestamp DESC";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
@@ -118,6 +156,7 @@ public final class BrainTimerDao_Impl implements BrainTimerDao {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
           final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
           final int _cursorIndexOfDuration = CursorUtil.getColumnIndexOrThrow(_cursor, "duration");
           final List<SessionEntity> _result = new ArrayList<SessionEntity>(_cursor.getCount());
@@ -125,11 +164,56 @@ public final class BrainTimerDao_Impl implements BrainTimerDao {
             final SessionEntity _item;
             final long _tmpId;
             _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final long _tmpUserId;
+            _tmpUserId = _cursor.getLong(_cursorIndexOfUserId);
             final long _tmpTimestamp;
             _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
             final int _tmpDuration;
             _tmpDuration = _cursor.getInt(_cursorIndexOfDuration);
-            _item = new SessionEntity(_tmpId,_tmpTimestamp,_tmpDuration);
+            _item = new SessionEntity(_tmpId,_tmpUserId,_tmpTimestamp,_tmpDuration);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
+  public Flow<List<SessionEntity>> observeSessionsByUserId(final long userId) {
+    final String _sql = "SELECT * FROM sessions WHERE userId = ? ORDER BY timestamp DESC";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindLong(_argIndex, userId);
+    return CoroutinesRoom.createFlow(__db, false, new String[] {"sessions"}, new Callable<List<SessionEntity>>() {
+      @Override
+      @NonNull
+      public List<SessionEntity> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfUserId = CursorUtil.getColumnIndexOrThrow(_cursor, "userId");
+          final int _cursorIndexOfTimestamp = CursorUtil.getColumnIndexOrThrow(_cursor, "timestamp");
+          final int _cursorIndexOfDuration = CursorUtil.getColumnIndexOrThrow(_cursor, "duration");
+          final List<SessionEntity> _result = new ArrayList<SessionEntity>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final SessionEntity _item;
+            final long _tmpId;
+            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final long _tmpUserId;
+            _tmpUserId = _cursor.getLong(_cursorIndexOfUserId);
+            final long _tmpTimestamp;
+            _tmpTimestamp = _cursor.getLong(_cursorIndexOfTimestamp);
+            final int _tmpDuration;
+            _tmpDuration = _cursor.getInt(_cursorIndexOfDuration);
+            _item = new SessionEntity(_tmpId,_tmpUserId,_tmpTimestamp,_tmpDuration);
             _result.add(_item);
           }
           return _result;

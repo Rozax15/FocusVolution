@@ -11,6 +11,7 @@ object TimerServiceStateStore {
     private val _state = MutableStateFlow(TimerServiceState())
     val state: StateFlow<TimerServiceState> = _state.asStateFlow()
 
+    @Volatile
     var sessionFinished: Boolean = false
 
     fun update(newState: TimerServiceState) {

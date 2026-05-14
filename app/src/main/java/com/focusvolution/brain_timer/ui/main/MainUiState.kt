@@ -1,7 +1,5 @@
 package com.focusvolution.brain_timer.ui.main
 
-import com.focusvolution.brain_timer.data.local.SessionEntity
-
 /**
  * Estado agregado consumido pela UI principal.
  */
@@ -11,6 +9,5 @@ data class MainUiState(
     val isRunning: Boolean = false,
     val totalSessions: Int = 0,
     val currentLevel: Int = 1,
-    val failedSessions: Int = 0,
-    val sessions: List<SessionEntity> = emptyList()
+    val failedSessions: Int = 0
 )

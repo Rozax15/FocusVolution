@@ -15,6 +15,12 @@ interface BrainTimerDao {
     @Query("SELECT * FROM sessions ORDER BY timestamp DESC")
     fun observeSessions(): Flow<List<SessionEntity>>
 
+    @Query("SELECT * FROM sessions WHERE userId = :userId ORDER BY timestamp DESC")
+    fun observeSessionsByUserId(userId: Long): Flow<List<SessionEntity>>
+
+    @Query("DELETE FROM sessions WHERE userId = :userId")
+    suspend fun deleteSessionsByUserId(userId: Long)
+
     @Insert
     suspend fun insertSession(session: SessionEntity)
 

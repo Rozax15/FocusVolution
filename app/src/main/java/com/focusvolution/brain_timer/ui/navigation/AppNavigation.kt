@@ -9,31 +9,76 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.focusvolution.brain_timer.ui.screens.HistoryScreen
+import com.focusvolution.brain_timer.data.repository.BrainTimerRepository
+import com.focusvolution.brain_timer.ui.screens.AdminScreen
+import com.focusvolution.brain_timer.ui.screens.LoginScreen
 import com.focusvolution.brain_timer.ui.screens.MainScreen
+import com.focusvolution.brain_timer.ui.screens.RegisterScreen
 import com.focusvolution.brain_timer.ui.main.MainViewModel
 
 /**
  * Rotas da aplicação.
  */
 sealed class AppRoute(val route: String) {
-    data object Main : AppRoute("main")
-    data object History : AppRoute("history")
+    data object Login    : AppRoute("login")
+    data object Register : AppRoute("register")
+    data object Main     : AppRoute("main")
+    data object Admin    : AppRoute("admin")
 }
 
 @Composable
 fun BrainTimerNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    viewModel: MainViewModel = viewModel()
+    viewModel: MainViewModel = viewModel(),
+    repository: BrainTimerRepository,
+    startDestination: String = AppRoute.Login.route,
+    onSaveSession: (Long) -> Unit = {},
+    onClearSession: () -> Unit = {}
 ) {
     val state by viewModel.uiState.collectAsState()
 
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = AppRoute.Main.route
+        startDestination = startDestination
     ) {
+        composable(AppRoute.Login.route) {
+            LoginScreen(
+                repository = repository,
+                onLoginSuccess = { userId ->
+                    viewModel.currentUserId = userId
+                    onSaveSession(userId)
+                    navController.navigate(AppRoute.Main.route) {
+                        popUpTo(AppRoute.Login.route) { inclusive = true }
+                    }
+                },
+                onNavigateRegister = {
+                    navController.navigate(AppRoute.Register.route)
+                },
+                onAdminLogin = {
+                    navController.navigate(AppRoute.Admin.route) {
+                        popUpTo(AppRoute.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(AppRoute.Register.route) {
+            RegisterScreen(
+                repository = repository,
+                onRegisterSuccess = {
+                    // Após registo com sucesso, volta ao login para o utilizador entrar
+                    navController.navigate(AppRoute.Login.route) {
+                        popUpTo(AppRoute.Login.route) { inclusive = true }
+                    }
+                },
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
         composable(AppRoute.Main.route) {
             MainScreen(
                 uiState = state,
@@ -41,16 +86,26 @@ fun BrainTimerNavHost(
                 onStartClick = viewModel::startOrResume,
                 onPauseClick = viewModel::pause,
                 onResetClick = viewModel::reset,
-                onNavigateHistory = {
-                    navController.navigate(AppRoute.History.route)
+                onLogout = {
+                    viewModel.currentUserId = -1L
+                    onClearSession()
+                    navController.navigate(AppRoute.Login.route) {
+                        popUpTo(AppRoute.Main.route) { inclusive = true }
+                    }
                 }
             )
         }
 
-        composable(AppRoute.History.route) {
-            HistoryScreen(
-                sessions = state.sessions,
-                onBackClick = { navController.popBackStack() }
+        composable(AppRoute.Admin.route) {
+            AdminScreen(
+                repository = repository,
+                onLogout = {
+                    viewModel.currentUserId = -1L
+                    onClearSession()
+                    navController.navigate(AppRoute.Login.route) {
+                        popUpTo(AppRoute.Admin.route) { inclusive = true }
+                    }
+                }
             )
         }
     }
