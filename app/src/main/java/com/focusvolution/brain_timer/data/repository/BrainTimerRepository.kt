@@ -99,6 +99,25 @@ class BrainTimerRepository(
     }
 
     /**
+     * Penalização: desce o total de sessões concluídas em 1 e recalcula o nível.
+     */
+    suspend fun penalizeUser(userId: Long = -1) {
+        database.withTransaction {
+            if (userId != -1L) {
+                val user = userDao.getUserById(userId) ?: return@withTransaction
+                val newTotal = (user.totalSessions - 1).coerceAtLeast(0)
+                val newLevel = ((newTotal / 5) + 1).coerceAtMost(10)
+                userDao.updateUserStats(userId, newTotal, newLevel)
+            } else {
+                val previous = dao.getAppState() ?: AppStateEntity(totalSessions = 0, currentLevel = 1)
+                val newTotal = (previous.totalSessions - 1).coerceAtLeast(0)
+                val newLevel = ((newTotal / 5) + 1).coerceAtMost(10)
+                dao.upsertAppState(previous.copy(totalSessions = newTotal, currentLevel = newLevel))
+            }
+        }
+    }
+
+    /**
      * Penalização: desce um nível do utilizador (mínimo nível 1).
      */
     suspend fun decrementLevel(userId: Long = -1) {

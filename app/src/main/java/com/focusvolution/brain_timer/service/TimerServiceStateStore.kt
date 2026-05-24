@@ -14,6 +14,9 @@ object TimerServiceStateStore {
     @Volatile
     var sessionFinished: Boolean = false
 
+    @Volatile
+    var userLeftDuringSession: Boolean = false
+
     fun update(newState: TimerServiceState) {
         _state.value = newState
     }

@@ -4,6 +4,7 @@ color ic_launcher_background
 color purple_40
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable medio_removebg
 drawable medio_semback
 drawable pequeno
 mipmap ic_launcher

@@ -2994,6 +2994,7 @@ int drawable material_ic_keyboard_arrow_previous_black_24dp 0x7f0700af
 int drawable material_ic_keyboard_arrow_right_black_24dp 0x7f0700b0
 int drawable material_ic_menu_arrow_down_black_24dp 0x7f0700b1
 int drawable material_ic_menu_arrow_up_black_24dp 0x7f0700b2
+int drawable medio_removebg 0x7f0700ec
 int drawable medio_semback 0x7f0700b3
 int drawable mtrl_bottomsheet_drag_handle 0x7f0700b4
 int drawable mtrl_checkbox_button 0x7f0700b5

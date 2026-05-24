@@ -6,11 +6,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.focusvolution.brain_timer.data.repository.BrainTimerRepository
 import com.focusvolution.brain_timer.ui.screens.AdminScreen
+import com.focusvolution.brain_timer.ui.screens.AdminUserHistoryScreen
 import com.focusvolution.brain_timer.ui.screens.LoginScreen
 import com.focusvolution.brain_timer.ui.screens.MainScreen
 import com.focusvolution.brain_timer.ui.screens.RegisterScreen
@@ -24,6 +27,9 @@ sealed class AppRoute(val route: String) {
     data object Register : AppRoute("register")
     data object Main     : AppRoute("main")
     data object Admin    : AppRoute("admin")
+    data object AdminUserHistory : AppRoute("admin_user_history/{userId}") {
+        fun createRoute(userId: Long) = "admin_user_history/$userId"
+    }
 }
 
 @Composable
@@ -105,7 +111,22 @@ fun BrainTimerNavHost(
                     navController.navigate(AppRoute.Login.route) {
                         popUpTo(AppRoute.Admin.route) { inclusive = true }
                     }
+                },
+                onUserClick = { userId ->
+                    navController.navigate(AppRoute.AdminUserHistory.createRoute(userId))
                 }
+            )
+        }
+
+        composable(
+            route = AppRoute.AdminUserHistory.route,
+            arguments = listOf(navArgument("userId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getLong("userId") ?: return@composable
+            AdminUserHistoryScreen(
+                repository = repository,
+                userId = userId,
+                onBackClick = { navController.popBackStack() }
             )
         }
     }

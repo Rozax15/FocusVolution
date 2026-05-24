@@ -116,6 +116,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun onAppBackground() {
         if (uiState.value.isRunning) {
             leftAppDuringSession = true
+            TimerServiceStateStore.userLeftDuringSession = true
         }
     }
 
@@ -135,13 +136,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // A cada 3 sessões falhadas, desce um nível
                 if (newFailed >= 3) {
                     _failedSessions.value = 0
-                    repository.decrementLevel(currentUserId)
+                    repository.penalizeUser(currentUserId)
                 }
             } else {
                 // Sessão concluída com sucesso
                 _failedSessions.value = 0
                 val actualDuration = uiState.value.selectedDurationSeconds
                 repository.completeSession(actualDuration, currentUserId)
+                TimerServiceStateStore.userLeftDuringSession = false
             }
             leftAppDuringSession = false
         }

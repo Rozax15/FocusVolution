@@ -25,21 +25,37 @@ abstract class BrainTimerDatabase : RoomDatabase() {
         private var INSTANCE: BrainTimerDatabase? = null
 
         /**
-         * Migração da versão 2 para 3: adiciona coluna userId à tabela sessions.
+         * Migração da versão 2 para 3: adiciona coluna userId à tabela sessions, se não existir.
          */
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE sessions ADD COLUMN userId INTEGER NOT NULL DEFAULT -1")
+                if (!columnExists(db, "sessions", "userId")) {
+                    db.execSQL("ALTER TABLE sessions ADD COLUMN userId INTEGER NOT NULL DEFAULT -1")
+                }
             }
         }
 
         /**
-         * Migração da versão 3 para 4: adiciona colunas totalSessions e currentLevel à tabela users.
+         * Migração da versão 3 para 4: adiciona colunas totalSessions e currentLevel à tabela users, se não existirem.
          */
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE users ADD COLUMN totalSessions INTEGER NOT NULL DEFAULT 0")
-                db.execSQL("ALTER TABLE users ADD COLUMN currentLevel INTEGER NOT NULL DEFAULT 1")
+                if (!columnExists(db, "users", "totalSessions")) {
+                    db.execSQL("ALTER TABLE users ADD COLUMN totalSessions INTEGER NOT NULL DEFAULT 0")
+                }
+                if (!columnExists(db, "users", "currentLevel")) {
+                    db.execSQL("ALTER TABLE users ADD COLUMN currentLevel INTEGER NOT NULL DEFAULT 1")
+                }
+            }
+        }
+
+        private fun columnExists(db: SupportSQLiteDatabase, table: String, column: String): Boolean {
+            val cursor = db.query("PRAGMA table_info('$table')")
+            return cursor.use { c ->
+                while (c.moveToNext()) {
+                    if (c.getString(1) == column) return@use true
+                }
+                false
             }
         }
 

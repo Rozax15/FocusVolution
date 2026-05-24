@@ -1,31 +1,49 @@
 package com.focusvolution.brain_timer.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// Paleta focada no contraste entre o Azul Escuro e o Branco
+// Paleta escura (azuis profundos coesos com o tema)
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF1E3A8A),      // O teu azul #1e3a8a
-    onPrimary = Color.White,          // Texto branco sobre o azul
+    primary = Color(0xFF3B82F6),
+    onPrimary = Color.White,
+    secondary = Color(0xFF60A5FA),
+    onSecondary = Color(0xFF0C1628),
+    background = Color(0xFF080E1E),
+    onBackground = Color(0xFFE2E8F0),
+    surface = Color(0xFF111B2E),
+    onSurface = Color(0xFFE2E8F0),
+    surfaceVariant = Color(0xFF1A2744),
+    onSurfaceVariant = Color(0xFF94A3B8),
+    tertiary = Color(0xFF64748B)
+)
 
-    secondary = Color.White,          // Branco como cor secundária para destaque
-    onSecondary = Color(0xFF1E3A8A),  // Azul sobre o branco
-
-    background = Color(0xFF0F172A),   // Fundo quase preto (Slate)
-    onBackground = Color.White,       // Todo o texto principal em Branco
-
-    surface = Color(0xFF1E293B),      // Cards num azul levemente mais claro
-    onSurface = Color.White,          // Texto nos cards em Branco
-
-    tertiary = Color(0xFF94A3B8)      // Cinza azulado para elementos menos importantes
+// Paleta clara (cores invertidas)
+private val LightColors = lightColorScheme(
+    primary = Color(0xFF1E3A8A),
+    onPrimary = Color.White,
+    secondary = Color(0xFF3B82F6),
+    onSecondary = Color.White,
+    background = Color(0xFFF8FAFC),
+    onBackground = Color(0xFF0F172A),
+    surface = Color.White,
+    onSurface = Color(0xFF0F172A),
+    surfaceVariant = Color(0xFFE2E8F0),
+    onSurfaceVariant = Color(0xFF475569),
+    tertiary = Color(0xFF64748B)
 )
 
 @Composable
-fun FocusvolutionTheme(content: @Composable () -> Unit) {
+fun FocusvolutionTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
     MaterialTheme(
-        colorScheme = DarkColors,
+        colorScheme = if (darkTheme) DarkColors else LightColors,
         typography = androidx.compose.material3.Typography(),
         content = content
     )

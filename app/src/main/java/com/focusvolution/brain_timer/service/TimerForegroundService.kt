@@ -173,7 +173,12 @@ class TimerForegroundService : Service() {
         TimerServiceStateStore.sessionFinished = true
 
         vibrateDevice()
-        showFinishedNotification()
+        if (TimerServiceStateStore.userLeftDuringSession) {
+            showFailedNotification()
+            TimerServiceStateStore.userLeftDuringSession = false
+        } else {
+            showFinishedNotification()
+        }
         stopForeground(STOP_FOREGROUND_DETACH)
         stopSelf()
     }
@@ -223,6 +228,27 @@ class TimerForegroundService : Service() {
             .setSmallIcon(android.R.drawable.ic_popup_reminder)
             .setContentTitle("Sessão concluída 🎉")
             .setContentText("Boa! A tua sessão de foco terminou.")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setContentIntent(openAppPendingIntent)
+            .build()
+
+        manager.notify(NOTIFICATION_ID_FINISHED, notification)
+    }
+
+    private fun showFailedNotification() {
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val openAppPendingIntent = PendingIntent.getActivity(
+            this,
+            2,
+            Intent(this, MainActivity::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val notification = NotificationCompat.Builder(this, CHANNEL_FINISHED)
+            .setSmallIcon(android.R.drawable.ic_popup_reminder)
+            .setContentTitle("Sessão não concluída")
+            .setContentText("Saíste da aplicação durante a sessão de foco.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(openAppPendingIntent)
