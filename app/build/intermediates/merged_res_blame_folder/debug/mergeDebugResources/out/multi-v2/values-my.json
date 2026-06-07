@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.focusvolution.brain_timer.app-mergeDebugResources-2:/values-my/values-my.xml",
+            "outputFile": "com.focusvolution.app-mergeDebugResources-2:/values-my/values-my.xml",
             "map": [
                 {
                     "source": "C:\\Users\\a1459\\.gradle\\caches\\9.0-milestone-1\\transforms\\454216391a7cbdf147df9657648c507c\\transformed\\material3-release\\res\\values-my\\values-my.xml",

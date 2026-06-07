@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.focusvolution.brain_timer"
+    namespace = "com.focusvolution.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.focusvolution.brain_timer"
+        applicationId = "com.focusvolution.app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -51,6 +51,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/NOTICE.md"
+            excludes += "/META-INF/LICENSE.md"
         }
     }
 }
@@ -88,6 +90,10 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     implementation("androidx.core:core:1.13.1")
+
+    // JavaMail para envio de emails de verificação
+    implementation("com.sun.mail:android-mail:1.6.6")
+    implementation("com.sun.mail:android-activation:1.6.6")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

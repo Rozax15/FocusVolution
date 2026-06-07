@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-41:12
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:1-52:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\e62786827794321243057bf35a5d907e\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\5001cd60b82991ab581a89ab9ff9854b\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\d7635684a249768f7437c94b89a7cd90\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -95,25 +95,29 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\a1459\.gradle\caches\9.0-miles
 		INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:5:5-67
+	android:name
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:5:22-64
 uses-permission#android.permission.POST_NOTIFICATIONS
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:5:5-77
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:8:5-77
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:5:22-74
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:8:22-74
 uses-permission#android.permission.VIBRATE
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:8:5-66
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:11:5-66
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:8:22-63
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:11:22-63
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:11:5-77
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:14:5-77
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:11:22-74
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:14:22-74
 uses-permission#android.permission.FOREGROUND_SERVICE_DATA_SYNC
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:12:5-87
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:15:5-87
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:12:22-84
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:15:22-84
 application
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:14:5-39:19
-INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:14:5-39:19
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:17:5-50:19
+INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:17:5-50:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\e62786827794321243057bf35a5d907e\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\e62786827794321243057bf35a5d907e\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\5001cd60b82991ab581a89ab9ff9854b\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -141,47 +145,67 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\a1
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:23:9-35
 	android:label
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:18:9-41
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:21:9-41
 	android:roundIcon
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:19:9-54
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:22:9-54
 	android:icon
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:17:9-43
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:20:9-43
 	android:allowBackup
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:16:9-35
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:19:9-35
 	android:theme
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:21:9-51
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:24:9-51
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:15:9-46
-activity#com.focusvolution.brain_timer.MainActivity
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:23:9-31:20
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:18:9-41
+activity#com.focusvolution.app.MainActivity
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:26:9-42:20
 	android:exported
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:25:13-36
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:28:13-36
 	android:theme
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:26:13-55
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:29:13-55
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:24:13-41
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:27:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:27:13-30:29
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:30:13-33:29
 action#android.intent.action.MAIN
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:28:17-69
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:31:17-69
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:28:25-66
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:31:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:29:17-77
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:32:17-77
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:29:27-74
-service#com.focusvolution.brain_timer.service.TimerForegroundService
-ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:33:9-37:56
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:32:27-74
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:verify-email+data:scheme:focusvolution
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:34:13-41:29
+action#android.intent.action.VIEW
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:35:17-69
+	android:name
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:35:25-66
+category#android.intent.category.DEFAULT
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:36:17-76
+	android:name
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:36:27-73
+category#android.intent.category.BROWSABLE
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:37:17-78
+	android:name
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:37:27-75
+data
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:38:17-40:51
+	android:host
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:40:21-48
+	android:scheme
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:39:21-51
+service#com.focusvolution.app.service.TimerForegroundService
+ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:44:9-48:56
 	android:enabled
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:35:13-35
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:46:13-35
 	android:exported
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:36:13-37
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:47:13-37
 	android:foregroundServiceType
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:37:13-53
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:48:13-53
 	android:name
-		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:34:13-59
+		ADDED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml:45:13-59
 uses-sdk
 INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\App_Temporizador_Android\brain_timer_app\app\src\main\AndroidManifest.xml
@@ -402,7 +426,7 @@ ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milesto
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
-permission#com.focusvolution.brain_timer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.focusvolution.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
@@ -412,7 +436,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
-uses-permission#com.focusvolution.brain_timer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.focusvolution.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\a1459\.gradle\caches\9.0-milestone-1\transforms\2b9fe63b882c978f586c84a1ef464f78\transformed\core-1.13.1\AndroidManifest.xml:26:22-94

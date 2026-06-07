@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focusvolution.brain_timer"
+    package="com.focusvolution.app"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="24"
         android:targetSdkVersion="34" />
+
+    <!-- Permissão de internet para envio de emails -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Permissão de notificação (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -19,13 +22,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <permission
-        android:name="com.focusvolution.brain_timer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.focusvolution.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.focusvolution.brain_timer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.focusvolution.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="com.focusvolution.brain_timer.BrainTimerApplication"
+        android:name="com.focusvolution.app.FocusVolutionApp"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
@@ -37,7 +40,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.Focusvolution" >
         <activity
-            android:name="com.focusvolution.brain_timer.MainActivity"
+            android:name="com.focusvolution.app.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Focusvolution" >
             <intent-filter>
@@ -45,10 +48,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="verify-email"
+                    android:scheme="focusvolution" />
+            </intent-filter>
         </activity>
 
         <service
-            android:name="com.focusvolution.brain_timer.service.TimerForegroundService"
+            android:name="com.focusvolution.app.service.TimerForegroundService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
@@ -62,7 +75,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.focusvolution.brain_timer.androidx-startup"
+            android:authorities="com.focusvolution.app.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"
