@@ -1,4 +1,4 @@
-#Sun Jun 07 20:18:12 WEST 2026
+#Wed Jun 10 21:53:26 WEST 2026
 base.0=C\:\\App_Temporizador_Android\\brain_timer_app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\App_Temporizador_Android\\brain_timer_app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\App_Temporizador_Android\\brain_timer_app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes3.dex

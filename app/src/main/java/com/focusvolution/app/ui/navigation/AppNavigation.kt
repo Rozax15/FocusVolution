@@ -1,5 +1,7 @@
 package com.focusvolution.app.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,18 +19,19 @@ import com.focusvolution.app.ui.screens.AdminUserHistoryScreen
 import com.focusvolution.app.ui.screens.LoginScreen
 import com.focusvolution.app.ui.screens.MainScreen
 import com.focusvolution.app.ui.screens.RegisterScreen
+import com.focusvolution.app.ui.screens.SessionHistoryScreen
 import com.focusvolution.app.ui.screens.VerifyCodeScreen
 import com.focusvolution.app.ui.main.MainViewModel
 
-/**
- * Rotas da aplicação.
- */
 sealed class AppRoute(val route: String) {
     data object Login    : AppRoute("login")
     data object Register : AppRoute("register")
     data object VerifyCode : AppRoute("verify_code")
     data object Main     : AppRoute("main")
     data object Admin    : AppRoute("admin")
+    data object SessionHistory : AppRoute("session_history/{userId}") {
+        fun createRoute(userId: Long) = "session_history/$userId"
+    }
     data object AdminUserHistory : AppRoute("admin_user_history/{userId}") {
         fun createRoute(userId: Long) = "admin_user_history/$userId"
     }
@@ -47,7 +50,9 @@ fun AppNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = { fadeIn() },
+        exitTransition = { fadeOut() }
     ) {
         composable(AppRoute.Login.route) {
             LoginScreen(
@@ -106,6 +111,11 @@ fun AppNavHost(
                     navController.navigate(AppRoute.Login.route) {
                         popUpTo(AppRoute.Main.route) { inclusive = true }
                     }
+                },
+                onSessionHistoryClick = {
+                    navController.navigate(AppRoute.SessionHistory.createRoute(viewModel.currentUserId)) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -131,6 +141,18 @@ fun AppNavHost(
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getLong("userId") ?: return@composable
             AdminUserHistoryScreen(
+                repository = repository,
+                userId = userId,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = AppRoute.SessionHistory.route,
+            arguments = listOf(navArgument("userId") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getLong("userId") ?: return@composable
+            SessionHistoryScreen(
                 repository = repository,
                 userId = userId,
                 onBackClick = { navController.popBackStack() }

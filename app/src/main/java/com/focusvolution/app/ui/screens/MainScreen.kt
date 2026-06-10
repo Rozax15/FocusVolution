@@ -1,6 +1,11 @@
 package com.focusvolution.app.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +37,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.focusvolution.app.ui.components.AppCharacter
 import com.focusvolution.app.ui.main.MainUiState
+import androidx.compose.runtime.LaunchedEffect
+import com.focusvolution.app.ui.components.LevelUpPopup
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,16 +51,28 @@ fun MainScreen(
     onStartClick: () -> Unit,
     onPauseClick: () -> Unit,
     onResetClick: () -> Unit,
-    onLogout: () -> Unit = {}
+    onLogout: () -> Unit = {},
+    onSessionHistoryClick: () -> Unit = {}
 ) {
     var minutesInput by remember { mutableStateOf("") }
     var secondsInput by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+    var previousLevel by remember { mutableStateOf(uiState.currentLevel) }
+    var showLevelUp by remember { mutableStateOf(false) }
+
+    LaunchedEffect(uiState.currentLevel) {
+        if (uiState.currentLevel > previousLevel) {
+            showLevelUp = true
+        }
+        previousLevel = uiState.currentLevel
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
         TopAppBar(
             title = { Text("FOCUSVOLUTION") },
             actions = {
@@ -126,6 +146,15 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        AppCharacter(
+            level = uiState.currentLevel,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -149,7 +178,9 @@ fun MainScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
+            Column(
+                modifier = Modifier.clickable(enabled = uiState.totalSessions > 0) { onSessionHistoryClick() }
+            ) {
                 Text(
                     text = "Sessões concluídas",
                     style = MaterialTheme.typography.titleMedium,
@@ -159,7 +190,8 @@ fun MainScreen(
                     text = "${uiState.totalSessions}",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
+                    color = if (uiState.totalSessions > 0) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.tertiary
                 )
             }
             Column(horizontalAlignment = Alignment.End) {
@@ -175,6 +207,18 @@ fun MainScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
+        }
+        }
+
+        AnimatedVisibility(
+            visible = showLevelUp,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            LevelUpPopup(
+                level = uiState.currentLevel,
+                onDismiss = { showLevelUp = false }
+            )
         }
     }
 }

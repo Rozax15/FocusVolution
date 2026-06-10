@@ -148,12 +148,16 @@
         "source": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-main-6:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-debug-4:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-main-6:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
-    },
-    {
         "merged": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-debug-4:\\drawable_cerebro_1.png.flat",
         "source": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-main-6:\\drawable\\cerebro_1.png"
+    },
+    {
+        "merged": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-debug-4:\\drawable_cerebro_10_preview.png.flat",
+        "source": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-main-6:\\drawable\\cerebro_10_preview.png"
+    },
+    {
+        "merged": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-debug-4:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\a1459\\.gradle\\daemon\\9.0-milestone-1\\com.focusvolution.app-main-6:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
     },
     {
         "merged": "com.focusvolution.app-debug-4:/drawable_cerebro_3.png.flat",
