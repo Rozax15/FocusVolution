@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import com.focusvolution.app.ui.components.AppCharacter
 import com.focusvolution.app.ui.main.MainUiState
 import androidx.compose.runtime.LaunchedEffect
+import com.focusvolution.app.ui.components.LevelDownPopup
 import com.focusvolution.app.ui.components.LevelUpPopup
 
 
@@ -59,10 +60,13 @@ fun MainScreen(
 
     var previousLevel by remember { mutableStateOf(uiState.currentLevel) }
     var showLevelUp by remember { mutableStateOf(false) }
+    var showLevelDown by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.currentLevel) {
         if (uiState.currentLevel > previousLevel) {
             showLevelUp = true
+        } else if (uiState.currentLevel < previousLevel) {
+            showLevelDown = true
         }
         previousLevel = uiState.currentLevel
     }
@@ -218,6 +222,17 @@ fun MainScreen(
             LevelUpPopup(
                 level = uiState.currentLevel,
                 onDismiss = { showLevelUp = false }
+            )
+        }
+
+        AnimatedVisibility(
+            visible = showLevelDown,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            LevelDownPopup(
+                level = uiState.currentLevel,
+                onDismiss = { showLevelDown = false }
             )
         }
     }
