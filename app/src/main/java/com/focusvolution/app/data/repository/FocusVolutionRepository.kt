@@ -43,6 +43,12 @@ class FocusVolutionRepository(
     fun observeSessionsByUserId(userId: Long): Flow<List<SessionEntity>> =
         dao.observeSessionsByUserId(userId)
 
+    fun observeSessionsByUserIdAndTag(userId: Long, tag: String?): Flow<List<SessionEntity>> =
+        dao.observeSessionsByUserIdAndTag(userId, tag)
+
+    fun observeTotalFocusSeconds(userId: Long): Flow<Int> =
+        dao.observeTotalFocusSeconds(userId)
+
     suspend fun deleteUserAndSessions(user: UserEntity) {
         database.withTransaction {
             dao.deleteSessionsByUserId(user.id)
@@ -61,7 +67,7 @@ class FocusVolutionRepository(
     /**
      * Regista sessão concluída e atualiza total/nível do utilizador de forma atómica.
      */
-    suspend fun recordCompletedSession(durationSeconds: Int, userId: Long = -1) {
+    suspend fun recordCompletedSession(durationSeconds: Int, userId: Long = -1, tag: String? = null) {
         database.withTransaction {
             val user = if (userId != -1L) userDao.getUserById(userId) else null
             val previousTotal = user?.totalSessions ?: 0
@@ -72,7 +78,8 @@ class FocusVolutionRepository(
                 SessionEntity(
                     timestamp = System.currentTimeMillis(),
                     duration = durationSeconds,
-                    userId = userId
+                    userId = userId,
+                    tag = tag
                 )
             )
 
@@ -92,8 +99,8 @@ class FocusVolutionRepository(
     /**
      * Alias para registar sessão concluída com sucesso (sem saída da app).
      */
-    suspend fun completeSession(durationSeconds: Int, userId: Long = -1) {
-        recordCompletedSession(durationSeconds, userId)
+    suspend fun completeSession(durationSeconds: Int, userId: Long = -1, tag: String? = null) {
+        recordCompletedSession(durationSeconds, userId, tag)
     }
 
     /**
@@ -354,6 +361,34 @@ class FocusVolutionRepository(
      * Obtém um utilizador pelo ID (para restaurar sessão ativa).
      */
     suspend fun getUserById(id: Long): UserEntity? = userDao.getUserById(id)
+
+    /**
+     * Atualiza o username de um utilizador.
+     */
+    suspend fun updateUsername(userId: Long, newUsername: String): AuthResult {
+        val trimmed = newUsername.trim()
+        if (trimmed.isBlank()) return AuthResult.Error("O nome de utilizador não pode estar vazio.")
+        if (userDao.countByUsername(trimmed) > 0) {
+            return AuthResult.Error("Este nome de utilizador já está em uso.")
+        }
+        userDao.updateUsername(userId, trimmed)
+        return AuthResult.Success(null)
+    }
+
+    /**
+     * Atualiza a palavra-passe de um utilizador.
+     */
+    suspend fun updatePassword(userId: Long, currentPassword: String, newPassword: String): AuthResult {
+        val user = userDao.getUserById(userId) ?: return AuthResult.Error("Utilizador não encontrado.")
+        if (user.passwordHash != hashPassword(currentPassword)) {
+            return AuthResult.Error("Palavra-passe atual incorreta.")
+        }
+        if (newPassword.length < 6) {
+            return AuthResult.Error("A nova palavra-passe deve ter pelo menos 6 caracteres.")
+        }
+        userDao.updatePassword(userId, hashPassword(newPassword))
+        return AuthResult.Success(null)
+    }
 
     /**
      * Gera um hash SHA-256 da palavra-passe.

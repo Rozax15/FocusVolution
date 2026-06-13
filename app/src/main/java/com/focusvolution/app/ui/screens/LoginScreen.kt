@@ -171,7 +171,7 @@ fun LoginScreen(
                 // Botão Entrar
                 Button(
                     onClick = {
-                        if (identifier.trim() == "Admin123" && password == "Admin2008") {
+                        if (identifier.trim() == com.focusvolution.app.config.AppConfig.ADMIN_USERNAME && password == com.focusvolution.app.config.AppConfig.ADMIN_PASSWORD) {
                             onAdminLogin()
                             return@Button
                         }

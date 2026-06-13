@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  */
 @Database(
     entities = [SessionEntity::class, AppStateEntity::class, UserEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -64,6 +64,14 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                if (!columnExists(db, "sessions", "tag")) {
+                    db.execSQL("ALTER TABLE sessions ADD COLUMN tag TEXT DEFAULT NULL")
+                }
+            }
+        }
+
         private fun columnExists(db: SupportSQLiteDatabase, table: String, column: String): Boolean {
             val cursor = db.query("PRAGMA table_info('$table')")
             return cursor.use { c ->
@@ -105,7 +113,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "focusvolution_db"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                     .build()
                 INSTANCE = instance
                 instance

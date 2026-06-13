@@ -8,6 +8,7 @@ data class MainUiState(
     val remainingSeconds: Int = 0,
     val isRunning: Boolean = false,
     val totalSessions: Int = 0,
+    val totalFocusSeconds: Int = 0,
     val currentLevel: Int = 1,
     val failedSessions: Int = 0
 )

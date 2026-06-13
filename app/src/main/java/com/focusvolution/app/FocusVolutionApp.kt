@@ -22,13 +22,16 @@ class FocusVolutionApp : Application() {
         AppDatabase.getDatabase(this)
     }
 
+    val settingsManager: SettingsManager by lazy {
+        SettingsManager(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this
 
         val repo = FocusVolutionRepository(database)
         repo.cleanupExpiredPendingRegistrations()
-        repo.clearAllPendingRegistrations()
 
         // ─── CONFIGURAÇÃO SMTP (GMAIL) ───────────────────────────────────
         // 1. Cria/usa uma conta Gmail

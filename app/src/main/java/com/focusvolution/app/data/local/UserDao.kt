@@ -91,4 +91,10 @@ interface UserDao {
      */
     @Query("UPDATE users SET verificationToken = :token WHERE id = :id")
     suspend fun setVerificationToken(id: Long, token: String)
+
+    @Query("UPDATE users SET username = :username WHERE id = :id")
+    suspend fun updateUsername(id: Long, username: String)
+
+    @Query("UPDATE users SET passwordHash = :passwordHash WHERE id = :id")
+    suspend fun updatePassword(id: Long, passwordHash: String)
 }

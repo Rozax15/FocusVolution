@@ -35,6 +35,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // Regista se o utilizador saiu da app durante uma sessão ativa
     private var leftAppDuringSession = false
 
+    // Guarda localmente a tag selecionada para associar à sessão
+    var selectedTag: String? = null
+
     // Guarda localmente o valor selecionado pelo utilizador para evitar race conditions com o serviço
     private var pendingDurationSeconds: Int = 0
 
@@ -43,16 +46,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (id == -1L) flowOf(null) else repository.observeUser(id)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
+    private val totalFocusFlow = _currentUserId.flatMapLatest { id ->
+        if (id == -1L) flowOf(0) else repository.observeTotalFocusSeconds(id)
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, 0)
+
     val uiState: StateFlow<MainUiState> = combine(
         userStateFlow,
         TimerServiceStateStore.state,
-        _failedSessions
-    ) { user, timerState, failed ->
+        _failedSessions,
+        totalFocusFlow
+    ) { user, timerState, failed, totalFocus ->
         MainUiState(
             selectedDurationSeconds = timerState.selectedDurationSeconds,
             remainingSeconds = timerState.remainingSeconds,
             isRunning = timerState.isRunning,
             totalSessions = user?.totalSessions ?: 0,
+            totalFocusSeconds = totalFocus,
             currentLevel = user?.currentLevel ?: 1,
             failedSessions = failed
         )
@@ -137,7 +146,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 // Sessão concluída com sucesso
                 _failedSessions.value = 0
                 val actualDuration = uiState.value.selectedDurationSeconds
-                repository.completeSession(actualDuration, currentUserId)
+                repository.completeSession(actualDuration, currentUserId, selectedTag)
+                selectedTag = null
                 TimerServiceStateStore.userLeftDuringSession = false
             }
             leftAppDuringSession = false

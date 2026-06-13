@@ -15,5 +15,6 @@ data class SessionEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: Long = -1,
     val timestamp: Long,
-    val duration: Int
+    val duration: Int,
+    val tag: String? = null
 )
