@@ -304,18 +304,6 @@ class FocusVolutionRepository(
         }
     }
 
-    /**
-     * Remove todos os registos pendentes (para testes).
-     */
-    fun clearAllPendingRegistrations() {
-        val all = pendingPrefs.all
-        for (key in all.keys) {
-            if (key.startsWith("pending_")) {
-                pendingPrefs.edit().remove(key).apply()
-            }
-        }
-    }
-
     private fun isEmailPending(email: String): Boolean {
         val all = pendingPrefs.all
         return all.any { (key, value) ->
