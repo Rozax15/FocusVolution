@@ -12,7 +12,11 @@ import android.os.IBinder
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.net.Uri
 import androidx.core.app.NotificationCompat
+import com.focusvolution.app.FocusVolutionApp
 import com.focusvolution.app.MainActivity
 import com.focusvolution.app.R
 import com.focusvolution.app.data.local.AppDatabase
@@ -173,6 +177,7 @@ class TimerForegroundService : Service() {
         TimerServiceStateStore.sessionFinished = true
 
         vibrateDevice()
+        playSoundIfEnabled()
         if (TimerServiceStateStore.userLeftDuringSession) {
             showFailedNotification()
             TimerServiceStateStore.userLeftDuringSession = false
@@ -274,6 +279,19 @@ class TimerForegroundService : Service() {
                 vibrator.vibrate(pattern, -1)
             }
         }
+    }
+
+    private fun playSoundIfEnabled() {
+        if (!FocusVolutionApp.instance.settingsManager.soundEnabled) return
+        try {
+            val uri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val mediaPlayer = MediaPlayer().apply {
+                setDataSource(applicationContext, uri)
+                setOnCompletionListener { release() }
+                prepare()
+                start()
+            }
+        } catch (_: Exception) { }
     }
 
     private fun createChannelsIfNeeded() {
